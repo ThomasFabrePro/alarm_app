@@ -19,10 +19,10 @@ class AlarmItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alarm Items'),
+        title: const Text('My alarms'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.add_alarm),
             onPressed: () {
               // Navigate to the settings page. If the user leaves and returns
               // to the app after it has been killed while running in the
