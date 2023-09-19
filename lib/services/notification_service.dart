@@ -8,6 +8,7 @@ class NotificationService {
     AndroidInitializationSettings initializationSettingsAndroid =
         const AndroidInitializationSettings('logo');
 
+    //dont care about IOS but let's do this anyway
     var initializationSettingsIOS = DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
