@@ -1,3 +1,5 @@
+import 'package:alarm_app/services/firebase_helper.dart';
+import 'package:alarm_app/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +22,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  NotificationService notificationService = NotificationService();
+  notificationService.initNotification();
 //!test
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   NotificationSettings settings = await messaging.requestPermission(
@@ -35,7 +39,10 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   print('🔵User granted permission: ${settings.authorizationStatus}');
   print('🔵firebasemessaging token : $token');
-
+  notificationService.showNotification(
+      title: 'TESTHelloWorld', body: 'TESTHelloWorld');
+  // await FirebaseHelper.sendNotification(
+  //     title: 'HelloWorld', body: 'HelloWorld', token: token!);
 //!end test
 
   // Set up the SettingsController, which will glue user settings to multiple
