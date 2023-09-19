@@ -1,4 +1,6 @@
+import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/services/notification_service.dart';
+import 'package:alarm_app/src/alarm_feature/alarm_item.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest.dart' as tz;
@@ -12,6 +14,8 @@ void main() async {
 
   tz.initializeTimeZones();
   notificationService.initNotification();
+  DatabaseHelper databaseHelper = DatabaseHelper.instance;
+
 //!test
 
   // notificationService.showNotification(

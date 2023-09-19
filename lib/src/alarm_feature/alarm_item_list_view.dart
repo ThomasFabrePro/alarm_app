@@ -1,3 +1,5 @@
+import 'dart:math' show Random;
+
 import 'package:flutter/material.dart';
 
 import '../settings/settings_view.dart';
@@ -17,9 +19,11 @@ class AlarmItemListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int idOne = Random().nextInt(1000000000);
+    int idTwo = Random().nextInt(1000000000);
     List<AlarmItem> items = [
-      AlarmItem('title', 'description', DateTime.now().toString()),
-      AlarmItem('title2', 'description', DateTime.now().toString())
+      AlarmItem(idOne, 'title', 'description', DateTime.now().toString()),
+      AlarmItem(idTwo, 'title2', 'description', DateTime.now().toString())
     ];
     return Scaffold(
       appBar: AppBar(
