@@ -1,6 +1,8 @@
 /// A placeholder class that represents an entity or model.
 class AlarmItem {
-  const AlarmItem(this.id);
+  const AlarmItem(this.title, this.description, this.time);
 
-  final int id;
+  final String title;
+  final String description;
+  final String time;
 }

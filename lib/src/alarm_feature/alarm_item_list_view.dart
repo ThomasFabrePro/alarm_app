@@ -8,15 +8,19 @@ import 'alarm_item_details_view.dart';
 class AlarmItemListView extends StatelessWidget {
   const AlarmItemListView({
     super.key,
-    this.items = const [AlarmItem(1), AlarmItem(2), AlarmItem(3)],
+    // this.items,
   });
 
   static const routeName = '/';
 
-  final List<AlarmItem> items;
+  // final List<AlarmItem> items = const [];
 
   @override
   Widget build(BuildContext context) {
+    List<AlarmItem> items = [
+      AlarmItem('title', 'description', DateTime.now().toString()),
+      AlarmItem('title2', 'description', DateTime.now().toString())
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('My alarms'),
@@ -49,7 +53,7 @@ class AlarmItemListView extends StatelessWidget {
           final item = items[index];
 
           return ListTile(
-              title: Text('AlarmItem ${item.id}'),
+              title: Text(item.title),
               leading: const CircleAvatar(
                 // Display the Flutter Logo image asset.
                 foregroundImage: AssetImage('assets/images/logo.jpg'),
@@ -58,10 +62,9 @@ class AlarmItemListView extends StatelessWidget {
                 // Navigate to the details page. If the user leaves and returns to
                 // the app after it has been killed while running in the
                 // background, the navigation stack is restored.
+                AlarmItemDetailsView.alarm = item;
                 Navigator.restorablePushNamed(
-                  context,
-                  AlarmItemDetailsView.routeName,
-                );
+                    context, AlarmItemDetailsView.routeName);
               });
         },
       ),

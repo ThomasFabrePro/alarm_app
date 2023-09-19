@@ -1,6 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// ignore: depend_on_referenced_packages, unused_import
 import 'package:timezone/data/latest.dart' as tz;
+// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
+
+//Tutorials: https://www.youtube.com/watch?v=26TTYlwc6FM&ab_channel=vijaycreations
+// https://www.youtube.com/watch?v=T6Wg0AmIESE&ab_channel=vijaycreations
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
