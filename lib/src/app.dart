@@ -1,6 +1,6 @@
+import 'package:alarm_app/src/alarm_feature/add_alarm_item_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'alarm_feature/alarm_item_details_view.dart';
 import 'alarm_feature/alarm_item_list_view.dart';
@@ -35,23 +35,17 @@ class MyApp extends StatelessWidget {
           // Provide the generated AppLocalizations to the MaterialApp. This
           // allows descendant Widgets to display the correct translations
           // depending on the user's locale.
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''), // English, no country code
-          ],
+          // supportedLocales: const [
+          //   Locale('en', ''), // English, no country code
+          // ],
 
           // Use AppLocalizations to configure the correct application title
           // depending on the user's locale.
           //
           // The appTitle is defined in .arb files found in the localization
           // directory.
-          onGenerateTitle: (BuildContext context) =>
-              AppLocalizations.of(context)!.appTitle,
+          // onGenerateTitle: (BuildContext context) =>
+          //     AppLocalizations.of(context)!.appTitle,
 
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
@@ -71,6 +65,8 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case AlarmItemDetailsView.routeName:
                     return const AlarmItemDetailsView();
+                  case AddAlarmItemView.routeName:
+                    return const AddAlarmItemView();
                   case AlarmItemListView.routeName:
                   default:
                     return const AlarmItemListView();

@@ -4,14 +4,14 @@
 import 'dart:io';
 import 'dart:core';
 
-import 'package:alarm_app/src/alarm_feature/alarm_item.dart';
+import 'package:alarm_app/models/alarm_item.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  String _databaseName = 'AlarmApp.db';
-  int _databaseVersion = 1;
+  final String _databaseName = 'AlarmApp.db';
+  final int _databaseVersion = 1;
 
   //singleton class
   DatabaseHelper._();
@@ -19,7 +19,6 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._();
   Database? _database;
 
-  // TODO à modifier pour permettre une meilleure gestion lors des maj
   Future<Database> get database async => _database ??= await _initDatabase();
 
   _initDatabase() async {
@@ -42,7 +41,8 @@ class DatabaseHelper {
       id INTEGER PRIMARY KEY,
       title TEXT,
       description TEXT,
-      time TEXT
+      day TEXT,
+      hourMinute TEXT
       )
       ''');
   }
