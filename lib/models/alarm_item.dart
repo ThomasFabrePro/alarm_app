@@ -1,7 +1,7 @@
+import 'package:alarm_app/main.dart';
 import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/services/notification_service.dart';
 
-/// A placeholder class that represents an entity or model.
 class AlarmItem {
   AlarmItem(this.id,
       {required this.title,
@@ -38,6 +38,7 @@ class AlarmItem {
       'description': description,
       'day': day,
       'hourMinute': hourMinute,
+      'recurrencyInDays': recurrencyInDays,
     };
   }
 
@@ -48,31 +49,46 @@ class AlarmItem {
       description: map['description'],
       day: map['day'],
       hourMinute: map['hourMinute'],
+      recurrencyInDays: map['recurrencyInDays'],
     );
   }
 
-  Future<void> dbUpdate() async {
+  ///only update the databse
+  Future<void> updateDb() async {
+    DatabaseHelper dbHelper = DatabaseHelper.instance;
+    dbHelper.updateAlarm(this);
+  }
+
+  ///update item in database and update the notification
+  Future<void> dbUpdateAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     await NotificationService().cancelNotification(id);
     await scheduleNotification();
     dbHelper.updateAlarm(this);
+    logger.t("Alarm Updated :: id: $id, title: $title, day: $day");
   }
 
-  Future<void> dbDelete() async {
+  ///delete item in database and delete the notification
+  Future<void> dbDeleteAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     NotificationService().cancelNotification(id);
     dbHelper.deleteAlarm(id);
+    logger.t("Alarm Deleted :: id: $id, title: $title, day: $day");
   }
 
-  Future<void> dbInsert() async {
+  ///insert alarm in database but does not schedule the notification
+  Future<void> dbInsertAlarm() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     dbHelper.insertAlarm(this);
+    logger.t("Alarm Inserted :: id: $id");
   }
 
   Future<void> scheduleNotification() async {
     NotificationService().scheduleNotification(
+        id: id,
         title: title,
         body: description,
         scheduledNotificationDateTime: DateTime.parse(day));
+    logger.t("Notification Scheduled:: id: $id, title: $title, day: $day");
   }
 }

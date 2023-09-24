@@ -21,6 +21,8 @@ dependencies:
   path_provider: ^2.1.1
   sqflite: ^2.3.0
   time_picker_sheet: ^0.0.2+1
+  logger: ^2.0.2
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:

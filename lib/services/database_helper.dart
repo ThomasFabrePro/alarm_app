@@ -42,6 +42,7 @@ class DatabaseHelper {
       title TEXT,
       description TEXT,
       day TEXT,
+      recurrencyInDays INTEGER,
       hourMinute TEXT
       )
       ''');

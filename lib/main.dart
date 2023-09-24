@@ -5,7 +5,13 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
+import 'package:logger/logger.dart';
 
+Logger logger = Logger(
+  printer: PrettyPrinter(
+    colors: true,
+  ),
+);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService notificationService = NotificationService();

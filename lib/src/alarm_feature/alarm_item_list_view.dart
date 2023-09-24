@@ -2,6 +2,7 @@ import 'dart:math' show Random;
 
 import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/src/alarm_feature/add_alarm_item_view.dart';
+import 'package:alarm_app/widgets/alarm_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/alarm_item.dart';
@@ -29,7 +30,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
         isOld: false);
     //setup AddAlarmItemView "alarm"
     alarm = newAlarm;
-    await alarm.dbInsert();
+    await alarm.dbInsertAlarm();
   }
 
   Future<List<AlarmItem>> fetchAlarms() async {
@@ -41,6 +42,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const SizedBox(),
         title: const Text('My alarms'),
         actions: [
           IconButton(
@@ -90,26 +92,36 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
                 itemBuilder: (BuildContext context, int index) {
                   final item = items[index];
 
-                  return ListTile(
-                      title: Text(item.title),
-                      leading: const CircleAvatar(
-                        // Display the Flutter Logo image asset.
-                        foregroundImage: AssetImage('assets/images/logo.jpg'),
-                      ),
-                      onTap: () {
-                        // Navigate to the details page. If the user leaves and returns to
-                        // the app after it has been killed while running in the
-                        // background, the navigation stack is restored.
-                        alarm = item;
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const AddAlarmItemView();
-                        })).then((_) => setState(() {}));
-                        // Navigator.pushNamed(
-                        //     context, AddAlarmItemView.routeName);
-                        // Navigator.restorablePushNamed(
-                        //     context, AddAlarmItemView.routeName);
-                      });
+                  return AlarmCard(
+                    alarmItem: item,
+                    onTap: () {
+                      alarm = item;
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const AddAlarmItemView();
+                      })).then((_) => setState(() {}));
+                    },
+                  );
+                  // ListTile(
+                  //     title: Text(item.title),
+                  //     leading: const CircleAvatar(
+                  //       // Display the Flutter Logo image asset.
+                  //       foregroundImage: AssetImage('assets/images/logo.jpg'),
+                  //     ),
+                  //     onTap: () {
+                  //       // Navigate to the details page. If the user leaves and returns to
+                  //       // the app after it has been killed while running in the
+                  //       // background, the navigation stack is restored.
+                  //       alarm = item;
+                  //       Navigator.push(context,
+                  //           MaterialPageRoute(builder: (context) {
+                  //         return const AddAlarmItemView();
+                  //       })).then((_) => setState(() {}));
+                  //       // Navigator.pushNamed(
+                  //       //     context, AddAlarmItemView.routeName);
+                  //       // Navigator.restorablePushNamed(
+                  //       //     context, AddAlarmItemView.routeName);
+                  //     });
                 },
 
                 // ),
