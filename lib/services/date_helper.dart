@@ -31,9 +31,9 @@ class DateHelper {
   }
 
   static String toHourMinute(DateTime date) {
-    String refactoredMinutes =
-        date.minute < 10 ? "0${date.minute}" : "${date.minute}";
-    return "${date.hour}:$refactoredMinutes";
+    String hours = date.hour < 10 ? "0${date.hour}" : "${date.hour}";
+    String minutes = date.minute < 10 ? "0${date.minute}" : "${date.minute}";
+    return "$hours:$minutes";
   }
 
   String toDay(DateTime date) {

@@ -18,17 +18,8 @@ class AlarmItem {
   int recurrencyInDays;
   bool isOld;
 
-  // set updateTitle(String title) {
-  //   this.title = title;
-  //   dbUpdate();
-  // }
-
-  String get timeToDisplay {
-    return "$day $hourMinute";
-  }
-
-  String get notificationTime {
-    return "$day $hourMinute:00";
+  bool get isOver {
+    return DateTime.now().isAfter(DateTime.parse(day)) && recurrencyInDays != 0;
   }
 
   Map<String, dynamic> toMap() {
@@ -56,39 +47,46 @@ class AlarmItem {
   ///only update the databse
   Future<void> updateDb() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
-    dbHelper.updateAlarm(this);
+    await dbHelper.updateAlarm(this);
   }
 
   ///update item in database and update the notification
-  Future<void> dbUpdateAlarmAndNotif() async {
+  Future<void> updateAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     await NotificationService().cancelNotification(id);
     await scheduleNotification();
-    dbHelper.updateAlarm(this);
+    await dbHelper.updateAlarm(this);
     logger.t("Alarm Updated :: id: $id, title: $title, day: $day");
   }
 
   ///delete item in database and delete the notification
-  Future<void> dbDeleteAlarmAndNotif() async {
+  Future<void> deleteAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     NotificationService().cancelNotification(id);
-    dbHelper.deleteAlarm(id);
+    await dbHelper.deleteAlarm(id);
     logger.t("Alarm Deleted :: id: $id, title: $title, day: $day");
   }
 
   ///insert alarm in database but does not schedule the notification
   Future<void> dbInsertAlarm() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
-    dbHelper.insertAlarm(this);
+    await dbHelper.insertAlarm(this);
     logger.t("Alarm Inserted :: id: $id");
   }
 
   Future<void> scheduleNotification() async {
-    NotificationService().scheduleNotification(
+    await NotificationService().scheduleNotification(
         id: id,
         title: title,
         body: description,
         scheduledNotificationDateTime: DateTime.parse(day));
-    logger.t("Notification Scheduled:: id: $id, title: $title, day: $day");
+    logger.t(
+        "Notification Scheduled:: id: $id, title: $title, day: ${DateTime.parse(day).toString()}");
+  }
+
+  Future<void> reschedule() async {
+    DateTime date = DateTime.now().add(Duration(days: recurrencyInDays));
+    day = "${date.toString().substring(0, 10)} $hourMinute";
+    await updateAlarmAndNotif();
   }
 }

@@ -1,4 +1,4 @@
-import 'package:alarm_app/src/alarm_feature/add_alarm_item_view.dart';
+import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -65,8 +65,8 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case AlarmItemDetailsView.routeName:
                     return const AlarmItemDetailsView();
-                  case AddAlarmItemView.routeName:
-                    return const AddAlarmItemView();
+                  case AlarmItemDetailsView.routeName:
+                    return const AlarmItemDetailsView();
                   case AlarmItemListView.routeName:
                   default:
                     return const AlarmItemListView();

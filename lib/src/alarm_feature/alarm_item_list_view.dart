@@ -1,7 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:alarm_app/services/database_helper.dart';
-import 'package:alarm_app/src/alarm_feature/add_alarm_item_view.dart';
+import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:alarm_app/widgets/alarm_card.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
         day: DateTime.now().toString(),
         hourMinute: DateTime.now().toString().substring(11, 16),
         isOld: false);
-    //setup AddAlarmItemView "alarm"
+    //setup AlarmItemDetailsView "alarm"
     alarm = newAlarm;
     await alarm.dbInsertAlarm();
   }
@@ -53,7 +53,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
               // background, the navigation stack is restored.
               await createNewAlarm();
               Navigator.restorablePushNamed(
-                  context, AddAlarmItemView.routeName);
+                  context, AlarmItemDetailsView.routeName);
             },
           ),
         ],
@@ -98,7 +98,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
                       alarm = item;
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return const AddAlarmItemView();
+                        return const AlarmItemDetailsView();
                       })).then((_) => setState(() {}));
                     },
                   );
@@ -115,12 +115,12 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
                   //       alarm = item;
                   //       Navigator.push(context,
                   //           MaterialPageRoute(builder: (context) {
-                  //         return const AddAlarmItemView();
+                  //         return const AlarmItemDetailsView();
                   //       })).then((_) => setState(() {}));
                   //       // Navigator.pushNamed(
-                  //       //     context, AddAlarmItemView.routeName);
+                  //       //     context, AlarmItemDetailsView.routeName);
                   //       // Navigator.restorablePushNamed(
-                  //       //     context, AddAlarmItemView.routeName);
+                  //       //     context, AlarmItemDetailsView.routeName);
                   //     });
                 },
 
