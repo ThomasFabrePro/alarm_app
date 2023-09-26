@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:alarm_app/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // ignore: depend_on_referenced_packages, unused_import
 import 'package:timezone/data/latest.dart' as tz;
@@ -51,7 +51,7 @@ class NotificationService {
       String? payLoad,
       required DateTime scheduledNotificationDateTime}) async {
     if (DateTime.now().isAfter(scheduledNotificationDateTime)) {
-      debugPrint("NOW IS ALREADY AFTER NOTIFICATION SCHEDULE");
+      logger.t("NOW IS ALREADY AFTER NOTIFICATION SCHEDULE");
       return;
     }
     return notificationsPlugin.zonedSchedule(

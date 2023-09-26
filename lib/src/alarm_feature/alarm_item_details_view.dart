@@ -35,6 +35,8 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                 onPressed: () async {
                   await alarm.updateAlarmAndNotif();
                   Navigator.pop(context);
+                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  //     content: Text("Alarm updated successfully.")));
                 },
               )
             : IconButton(
@@ -234,7 +236,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         overflow: TextOverflow.clip,
         softWrap: true,
         text: TextSpan(
-          text: 'Select Starting Date :\n\n',
+          text: 'Select Date :\n\n',
           style: const TextStyle(
               color: Config.orange, fontSize: Config.textFontSize - 1),
           children: <TextSpan>[
@@ -290,7 +292,7 @@ class _TimePickerTxtState extends State<TimePickerTxt> {
             initialDateTime:
                 DateTime.parse(alarm.day).add(const Duration(minutes: 5)),
             minuteInterval: 5,
-            sheetTitle: 'Set meeting schedule',
+            sheetTitle: 'What time',
             hourTitle: 'Hour',
             minuteTitle: 'Minute',
             saveButtonText: 'Save',

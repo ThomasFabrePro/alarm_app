@@ -1,7 +1,6 @@
 import 'package:alarm_app/config.dart';
 import 'package:alarm_app/models/alarm_item.dart';
 import 'package:alarm_app/services/date_helper.dart';
-import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:flutter/material.dart';
 
 class AlarmCard extends StatefulWidget {
@@ -15,7 +14,7 @@ class AlarmCard extends StatefulWidget {
 
 class _AlarmCardState extends State<AlarmCard> {
   Widget _buildRescheduleButton() {
-    return widget.alarmItem.isOver
+    return widget.alarmItem.isOver && widget.alarmItem.recurrencyInDays != 0
         ? TextButton(
             onPressed: () async {
               await widget.alarmItem.reschedule();
@@ -42,7 +41,7 @@ class _AlarmCardState extends State<AlarmCard> {
         widget.onTap();
       },
       child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10),
+          padding: const EdgeInsets.only(top: 20.0, left: 10.0, right: 10),
           child: Container(
             constraints: const BoxConstraints(maxWidth: 800),
             height: 120,

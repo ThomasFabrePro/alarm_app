@@ -19,7 +19,7 @@ class AlarmItem {
   bool isOld;
 
   bool get isOver {
-    return DateTime.now().isAfter(DateTime.parse(day)) && recurrencyInDays != 0;
+    return DateTime.now().isAfter(DateTime.parse(day));
   }
 
   Map<String, dynamic> toMap() {
@@ -53,17 +53,19 @@ class AlarmItem {
   ///update item in database and update the notification
   Future<void> updateAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
+    await dbHelper.updateAlarm(this);
     await NotificationService().cancelNotification(id);
     await scheduleNotification();
-    await dbHelper.updateAlarm(this);
+
     logger.t("Alarm Updated :: id: $id, title: $title, day: $day");
   }
 
   ///delete item in database and delete the notification
   Future<void> deleteAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
-    NotificationService().cancelNotification(id);
     await dbHelper.deleteAlarm(id);
+    NotificationService().cancelNotification(id);
+
     logger.t("Alarm Deleted :: id: $id, title: $title, day: $day");
   }
 

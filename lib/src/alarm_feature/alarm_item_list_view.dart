@@ -1,5 +1,6 @@
 import 'dart:math' show Random;
 
+import 'package:alarm_app/main.dart';
 import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:alarm_app/widgets/alarm_card.dart';
@@ -68,6 +69,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
       body: FutureBuilder(
         future: fetchAlarms(),
         builder: (ctx, snapshot) {
+          logger.i("building listview");
           // Checking if future is resolved or not
           if (snapshot.connectionState == ConnectionState.done) {
             // If we got an error
