@@ -1,6 +1,5 @@
 // import 'package:flutter/scheduler.dart';
 import 'package:alarm_app/config.dart';
-import 'package:alarm_app/src/alarm_feature/alarm_item_list_view.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as picker;
 import 'package:flutter/material.dart';
@@ -65,7 +64,8 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    double voidBoxHeight = 40;
+    // double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -106,126 +106,101 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
           ],
         ),
       ),
-      body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Flexible(
-                  flex: 2,
-                  child: SizedBox(
-                    height: 125,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text("Description :",
-                          style: TextStyle(
-                            fontSize: Config.textFontSize + 1,
-                            color: Config.orange,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                    ),
-                  ),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text("Description :",
+                      style: TextStyle(
+                        fontSize: Config.textFontSize + 1,
+                        color: Config.orange,
+                        overflow: TextOverflow.ellipsis,
+                      )),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Flexible(
-                  flex: 7,
-                  child: SizedBox(
-                    child: CustomTextField(
-                        initialValue: alarm.description,
-                        onChanged: (String value) async {
-                          alarm.description =
-                              value == "" ? alarm.description : value;
-                          await alarm.updateDb();
-                        }),
+                CustomTextField(
+                    initialValue: alarm.description,
+                    onChanged: (String value) async {
+                      alarm.description =
+                          value == "" ? alarm.description : value;
+                      await alarm.updateDb();
+                    }),
+                SizedBox(
+                  height: voidBoxHeight,
+                ),
+                DatePickerTxt(onConfirm: (DateTime date) async {
+                  setState(() {
+                    alarm.day =
+                        "${date.toString().substring(0, 10)} ${alarm.hourMinute}";
+                  });
+                  await alarm.updateAlarmAndNotif();
+                }),
+                SizedBox(
+                  height: voidBoxHeight,
+                ),
+                TimePickerTxt(onChanged: (DateTime time) async {
+                  setState(() {
+                    alarm.hourMinute = DateHelper.toHourMinute(time);
+                    alarm.day =
+                        "${alarm.day.toString().substring(0, 10)} ${alarm.hourMinute}";
+                  });
+                  await alarm.updateAlarmAndNotif();
+                }),
+                SizedBox(
+                  height: voidBoxHeight,
+                ),
+                const Text(
+                  'Select Recurrency In Days :',
+                  style: TextStyle(
+                      color: Config.orange, fontSize: Config.textFontSize),
+                ),
+                SizedBox(
+                  height: voidBoxHeight,
+                ),
+                Center(
+                  child: NumberPicker(
+                    value: alarm.recurrencyInDays,
+                    minValue: 0,
+                    maxValue: 10,
+                    textStyle: const TextStyle(
+                        color: Config.orange, fontSize: Config.textFontSize),
+                    selectedTextStyle: const TextStyle(
+                        color: Config.white, fontSize: Config.titleFontSize),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Config.orange),
+                    ),
+                    axis: Axis.horizontal,
+                    onChanged: (value) async {
+                      setState(() => alarm.recurrencyInDays = value);
+                      await alarm.updateDb();
+                    },
                   ),
                 ),
-                const SizedBox(
-                  height: 40,
+                SizedBox(
+                  height: voidBoxHeight,
                 ),
-                Flexible(
-                  flex: 14,
-                  child: SizedBox(
-                      height: height,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DatePickerTxt(onConfirm: (DateTime date) async {
-                            setState(() {
-                              alarm.day =
-                                  "${date.toString().substring(0, 10)} ${alarm.hourMinute}";
-                            });
-                            await alarm.updateAlarmAndNotif();
-                          }),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          TimePickerTxt(onChanged: (DateTime time) async {
-                            setState(() {
-                              alarm.hourMinute = DateHelper.toHourMinute(time);
-                              alarm.day =
-                                  "${alarm.day.toString().substring(0, 10)} ${alarm.hourMinute}";
-                            });
-                            await alarm.updateAlarmAndNotif();
-                          }),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          const Text(
-                            'Select Recurrency In Days :',
-                            style: TextStyle(
-                                color: Config.orange,
-                                fontSize: Config.textFontSize),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Center(
-                            child: NumberPicker(
-                              value: alarm.recurrencyInDays,
-                              minValue: 0,
-                              maxValue: 10,
-                              textStyle: const TextStyle(
-                                  color: Config.orange,
-                                  fontSize: Config.textFontSize),
-                              selectedTextStyle: const TextStyle(
-                                  color: Config.white,
-                                  fontSize: Config.titleFontSize),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: Config.orange),
-                              ),
-                              axis: Axis.horizontal,
-                              onChanged: (value) async {
-                                setState(() => alarm.recurrencyInDays = value);
-                                await alarm.updateDb();
-                              },
-                            ),
-                          ),
-                        ],
-                      )),
+                Center(
+                  child: ScheduleButton(onPressed: () async {
+                    if (alarm.isOld) {
+                      await deleteAndDone();
+                    } else {
+                      await updateAndDone();
+                    }
+                  }),
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Flexible(
-                    flex: 2,
-                    child: Center(
-                      child: ScheduleButton(onPressed: () async {
-                        if (alarm.isOld) {
-                          await deleteAndDone();
-                        } else {
-                          await updateAndDone();
-                        }
-                      }),
-                    )),
               ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

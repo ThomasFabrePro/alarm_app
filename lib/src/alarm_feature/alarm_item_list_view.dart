@@ -1,6 +1,5 @@
 import 'dart:math' show Random;
 
-import 'package:alarm_app/main.dart';
 import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:alarm_app/widgets/alarm_card.dart';
