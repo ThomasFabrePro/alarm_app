@@ -23,6 +23,46 @@ class AlarmItemDetailsView extends StatefulWidget {
 }
 
 class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
+  Future<void> updateAndDone() async {
+    String snackbarText = 'Successfully updated alarm "${alarm.title}".';
+    Color snackbarColor = Config.successfullSnackBar;
+    await alarm.updateAlarmAndNotif().onError((error, stackTrace) {
+      snackbarText = 'Failed updating alarm "${alarm.title}".';
+      snackbarColor = Config.errorSnackBar;
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            snackbarText,
+            style: const TextStyle(color: Config.white),
+          ),
+          backgroundColor: snackbarColor,
+        ),
+      );
+      Navigator.pop(context);
+    });
+  }
+
+  Future<void> deleteAndDone() async {
+    String snackbarText = 'Successfully deleted alarm "${alarm.title}".';
+    Color snackbarColor = Config.successfullSnackBar;
+    await alarm.deleteAlarmAndNotif().onError((error, stackTrace) {
+      snackbarText = 'Failed deleting alarm "${alarm.title}".';
+      snackbarColor = Config.errorSnackBar;
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            snackbarText,
+            style: const TextStyle(color: Config.white),
+          ),
+          backgroundColor: snackbarColor,
+        ),
+      );
+      Navigator.pop(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -33,17 +73,13 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
-                  await alarm.updateAlarmAndNotif();
-                  Navigator.pop(context);
-                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //     content: Text("Alarm updated successfully.")));
+                  await updateAndDone();
                 },
               )
             : IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () async {
-                  await alarm.deleteAlarmAndNotif();
-                  Navigator.pop(context);
+                  await deleteAndDone();
                 },
               ),
         title: Row(
@@ -115,7 +151,6 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                   flex: 14,
                   child: SizedBox(
                       height: height,
-                      // child: Center(child: Text("Hello")),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -180,20 +215,13 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                 Flexible(
                     flex: 2,
                     child: Center(
-                      child: ScheduleButton(
-                        onPressed: () async {
-                          if (alarm.isOld) {
-                            await alarm.deleteAlarmAndNotif();
-                          } else {
-                            await alarm.updateAlarmAndNotif();
-                          }
-                          //TODO using pop here does not rebuild the listview but push is bad
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const AlarmItemListView();
-                          })).then((_) => setState(() {}));
-                        },
-                      ),
+                      child: ScheduleButton(onPressed: () async {
+                        if (alarm.isOld) {
+                          await deleteAndDone();
+                        } else {
+                          await updateAndDone();
+                        }
+                      }),
                     )),
               ],
             ),

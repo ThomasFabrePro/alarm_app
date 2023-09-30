@@ -44,7 +44,7 @@ class AlarmItem {
     );
   }
 
-  ///only update the databse
+  ///only update the databse, does not update the notification
   Future<void> updateDb() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     await dbHelper.updateAlarm(this);
@@ -56,7 +56,6 @@ class AlarmItem {
     await dbHelper.updateAlarm(this);
     await NotificationService().cancelNotification(id);
     await scheduleNotification();
-
     logger.t("Alarm Updated :: id: $id, title: $title, day: $day");
   }
 

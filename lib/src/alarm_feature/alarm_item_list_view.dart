@@ -29,7 +29,6 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
         day: DateTime.now().toString(),
         hourMinute: DateTime.now().toString().substring(11, 16),
         isOld: false);
-    //setup AlarmItemDetailsView "alarm"
     alarm = newAlarm;
     await alarm.dbInsertAlarm();
   }
@@ -49,27 +48,17 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
           IconButton(
             icon: const Icon(Icons.add_alarm),
             onPressed: () async {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
-              await createNewAlarm();
-              Navigator.restorablePushNamed(
-                  context, AlarmItemDetailsView.routeName);
+              await createNewAlarm().then((value) =>
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const AlarmItemDetailsView();
+                  })).then((_) => setState(() {})));
             },
           ),
         ],
       ),
-
-      // To work with lists that may contain a large number of items, it’s best
-      // to use the ListView.builder constructor.
-      //
-      // In contrast to the default ListView constructor, which requires
-      // building all Widgets up front, the ListView.builder constructor lazily
-      // builds Widgets as they’re scrolled into view.
       body: FutureBuilder(
         future: fetchAlarms(),
         builder: (ctx, snapshot) {
-          logger.i("building listview");
           // Checking if future is resolved or not
           if (snapshot.connectionState == ConnectionState.done) {
             // If we got an error
@@ -86,10 +75,6 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
               final List<AlarmItem> items = snapshot.data as List<AlarmItem>;
               // Extracting data from snapshot object
               return ListView.builder(
-                // Providing a restorationId allows the ListView to restore the
-                // scroll position when a user leaves and returns to the app after it
-                // has been killed while running in the background.
-                restorationId: 'sampleItemListView',
                 itemCount: items.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = items[index];
@@ -104,29 +89,7 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
                       })).then((_) => setState(() {}));
                     },
                   );
-                  // ListTile(
-                  //     title: Text(item.title),
-                  //     leading: const CircleAvatar(
-                  //       // Display the Flutter Logo image asset.
-                  //       foregroundImage: AssetImage('assets/images/logo.jpg'),
-                  //     ),
-                  //     onTap: () {
-                  //       // Navigate to the details page. If the user leaves and returns to
-                  //       // the app after it has been killed while running in the
-                  //       // background, the navigation stack is restored.
-                  //       alarm = item;
-                  //       Navigator.push(context,
-                  //           MaterialPageRoute(builder: (context) {
-                  //         return const AlarmItemDetailsView();
-                  //       })).then((_) => setState(() {}));
-                  //       // Navigator.pushNamed(
-                  //       //     context, AlarmItemDetailsView.routeName);
-                  //       // Navigator.restorablePushNamed(
-                  //       //     context, AlarmItemDetailsView.routeName);
-                  //     });
                 },
-
-                // ),
               );
             }
           }
