@@ -41,7 +41,6 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const SizedBox(),
         title: const Text('My alarms'),
         actions: [
           IconButton(
