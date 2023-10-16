@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseHelper {
+class DatabaseHelper with InsertAlarm {
   final String _databaseName = 'AlarmApp.db';
   final int _databaseVersion = 1;
 
@@ -49,10 +49,10 @@ class DatabaseHelper {
   }
 
   //create a function that insert a new AlarmItem in the table alarm
-  Future<int> insertAlarm(AlarmItem alarm) async {
-    Database db = await database;
-    return await db.insert('alarms', alarm.toMap());
-  }
+  // Future<int> insertAlarm(AlarmItem alarm) async {
+  //   Database db = await database;
+  //   return await db.insert('alarms', alarm.toMap());
+  // }
 
   Future<List<AlarmItem>> fetchAlarms() async {
     Database db = await database;
@@ -73,5 +73,12 @@ class DatabaseHelper {
   Future<int> deleteAlarm(int id) async {
     Database db = await database;
     return await db.delete('alarms', where: 'id = ?', whereArgs: [id]);
+  }
+}
+
+mixin InsertAlarm {
+  Future<int> insertAlarm(AlarmItem alarm) async {
+    Database db = await DatabaseHelper.instance.database;
+    return await db.insert('alarms', alarm.toMap());
   }
 }

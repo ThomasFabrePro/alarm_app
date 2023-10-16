@@ -53,9 +53,12 @@ class AlarmItem {
   ///update item in database and update the notification
   Future<void> updateAlarmAndNotif() async {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
-    await dbHelper.updateAlarm(this);
-    await NotificationService().cancelNotification(id);
-    await scheduleNotification();
+    Future.wait([
+      dbHelper.updateAlarm(this),
+      NotificationService().cancelNotification(id),
+      scheduleNotification()
+    ]);
+
     logger.t("Alarm Updated :: id: $id, title: $title, day: $day");
   }
 
