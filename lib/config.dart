@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart' show Color, Colors;
+import 'package:flutter/material.dart'
+    show Color, ColorScheme, Colors, ThemeData;
 
 class Config {
   static const double textFontSize = 18;
@@ -8,4 +9,9 @@ class Config {
   static const Color white = Colors.white;
   static const Color successfullSnackBar = Colors.green;
   static const Color errorSnackBar = Colors.red;
+  static ThemeData theme = ThemeData.from(
+    colorScheme: ColorScheme.dark(
+      background: Colors.grey[900]!,
+    ),
+  );
 }

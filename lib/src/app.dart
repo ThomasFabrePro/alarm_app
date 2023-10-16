@@ -1,3 +1,4 @@
+import 'package:alarm_app/config.dart';
 import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:flutter/material.dart';
 import 'alarm_feature/alarm_item_list_view.dart';
@@ -12,8 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       restorationScopeId: 'app',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      theme: Config.theme,
       onGenerateRoute: (RouteSettings routeSettings) {
         return MaterialPageRoute<void>(
           settings: routeSettings,
