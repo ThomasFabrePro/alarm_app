@@ -22,6 +22,13 @@ class AlarmItemDetailsView extends StatefulWidget {
 }
 
 class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
+  bool isOld = false;
+  @override
+  void initState() {
+    isOld = alarm.isOld;
+    super.initState();
+  }
+
   Future<void> updateAndDone() async {
     String snackbarText = 'Successfully updated alarm "${alarm.title}".';
     Color snackbarColor = Config.successfullSnackBar;
@@ -69,7 +76,7 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        leading: alarm.isOld
+        leading: isOld
             ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () async {
@@ -88,6 +95,7 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
               width: width * 0.62,
               child: TextFormField(
                 initialValue: alarm.title,
+                autofocus: !isOld,
                 style: const TextStyle(
                     fontSize: Config.titleFontSize,
                     color: Config.white,
@@ -188,13 +196,15 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                   height: voidBoxHeight,
                 ),
                 Center(
-                  child: ScheduleButton(onPressed: () async {
-                    if (alarm.isOld) {
-                      await deleteAndDone();
-                    } else {
-                      await updateAndDone();
-                    }
-                  }),
+                  child: ScheduleButton(
+                      isOld: isOld,
+                      onPressed: () async {
+                        if (isOld) {
+                          await deleteAndDone();
+                        } else {
+                          await updateAndDone();
+                        }
+                      }),
                 ),
               ],
             ),
@@ -256,23 +266,26 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
 
 class ScheduleButton extends StatelessWidget {
   final Function onPressed;
+  final bool isOld;
   const ScheduleButton({
     Key? key,
     required this.onPressed,
+    required this.isOld,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-                alarm.isOld ? Config.red : Config.orange),
+            backgroundColor:
+                MaterialStateProperty.all(isOld ? Config.red : Config.orange),
             minimumSize: MaterialStateProperty.all(const Size(100, 50))),
         onPressed: () async {
           await onPressed();
         },
-        child: Text(alarm.isOld ? "Delete" : "Save",
-            style: const TextStyle(fontSize: Config.titleFontSize)));
+        child: Text(isOld ? "Delete" : "Save",
+            style: const TextStyle(
+                fontSize: Config.titleFontSize, color: Colors.white)));
   }
 }
 
