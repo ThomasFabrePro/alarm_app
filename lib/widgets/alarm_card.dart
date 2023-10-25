@@ -26,7 +26,7 @@ class _AlarmCardState extends State<AlarmCard> {
               style: const TextStyle(
                 fontSize: Config.textFontSize,
                 decoration: TextDecoration.underline,
-                color: Config.orange,
+                color: Config.primaryColor,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -69,7 +69,7 @@ class _AlarmCardState extends State<AlarmCard> {
                       style: const TextStyle(
                           fontSize: Config.titleFontSize,
                           fontFamily: 'FireSansCondensed',
-                          color: Config.orange,
+                          color: Config.primaryColor,
                           overflow: TextOverflow.ellipsis)),
                   RichText(
                     overflow: TextOverflow.ellipsis,
@@ -87,7 +87,7 @@ class _AlarmCardState extends State<AlarmCard> {
                           text: widget.alarmItem.isOver ? " (over)" : "",
                           style: const TextStyle(
                             fontSize: Config.textFontSize,
-                            color: Config.orange,
+                            color: Config.primaryColor,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

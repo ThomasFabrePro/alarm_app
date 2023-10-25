@@ -30,7 +30,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           child: TextFormField(
             initialValue: widget.initialValue,
             maxLines: 4,
-            cursorColor: Config.orange,
+            cursorColor: Config.primaryColor,
             style: const TextStyle(
               fontSize: Config.textFontSize,
             ),
@@ -38,7 +38,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fillColor: Config.white,
               // border: InputBorder.none,
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Config.orange),
+                borderSide: const BorderSide(color: Config.primaryColor),
                 borderRadius: BorderRadius.circular(10),
               ),
               border: OutlineInputBorder(

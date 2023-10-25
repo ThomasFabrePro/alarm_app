@@ -1,5 +1,6 @@
 import 'dart:math' show Random;
 
+import 'package:alarm_app/config.dart';
 import 'package:alarm_app/services/database_helper.dart';
 import 'package:alarm_app/src/alarm_feature/alarm_item_details_view.dart';
 import 'package:alarm_app/widgets/alarm_card.dart';
@@ -11,7 +12,6 @@ import '../../models/alarm_item.dart';
 class AlarmItemListView extends StatefulWidget {
   const AlarmItemListView({
     super.key,
-    // this.items,
   });
 
   static const routeName = '/';
@@ -40,19 +40,19 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Config.primaryColor,
+        foregroundColor: Config.white,
+        onPressed: () async {
+          await createNewAlarm().then((value) =>
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AlarmItemDetailsView();
+              })).then((_) => setState(() {})));
+        },
+        child: const Icon(Icons.add_alarm),
+      ),
       appBar: AppBar(
         title: const Text('My alarms'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_alarm),
-            onPressed: () async {
-              await createNewAlarm().then((value) =>
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const AlarmItemDetailsView();
-                  })).then((_) => setState(() {})));
-            },
-          ),
-        ],
       ),
       body: FutureBuilder(
         future: fetchAlarms(),

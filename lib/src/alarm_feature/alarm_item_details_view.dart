@@ -126,7 +126,7 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                   child: Text("Description :",
                       style: TextStyle(
                         fontSize: Config.textFontSize + 1,
-                        color: Config.orange,
+                        color: Config.primaryColor,
                         overflow: TextOverflow.ellipsis,
                       )),
                 ),
@@ -167,7 +167,8 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                 const Text(
                   'Select Recurrency In Days :',
                   style: TextStyle(
-                      color: Config.orange, fontSize: Config.textFontSize),
+                      color: Config.primaryColor,
+                      fontSize: Config.textFontSize),
                 ),
                 SizedBox(
                   height: voidBoxHeight,
@@ -178,12 +179,13 @@ class _AddAlarmItemViewState extends State<AlarmItemDetailsView> {
                     minValue: 0,
                     maxValue: 10,
                     textStyle: const TextStyle(
-                        color: Config.orange, fontSize: Config.textFontSize),
+                        color: Config.primaryColor,
+                        fontSize: Config.textFontSize),
                     selectedTextStyle: const TextStyle(
                         color: Config.white, fontSize: Config.titleFontSize),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Config.orange),
+                      border: Border.all(color: Config.primaryColor),
                     ),
                     axis: Axis.horizontal,
                     onChanged: (value) async {
@@ -234,7 +236,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
             minTime: now,
             maxTime: now.add(const Duration(days: 365 * 5)),
             theme: picker.DatePickerTheme(
-                headerColor: Config.orange,
+                headerColor: Config.primaryColor,
                 backgroundColor: Colors.grey[800]!,
                 itemStyle: const TextStyle(
                     color: Config.white,
@@ -251,7 +253,7 @@ class _DatePickerTxtState extends State<DatePickerTxt> {
         text: TextSpan(
           text: 'Select Date :\n\n',
           style: const TextStyle(
-              color: Config.orange, fontSize: Config.textFontSize - 1),
+              color: Config.primaryColor, fontSize: Config.textFontSize - 1),
           children: <TextSpan>[
             TextSpan(
                 text: DateHelper.getFormattedDate(DateTime.parse(alarm.day)),
@@ -277,8 +279,8 @@ class ScheduleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(isOld ? Config.red : Config.orange),
+            backgroundColor: MaterialStateProperty.all(
+                isOld ? Config.red : Config.primaryColor),
             minimumSize: MaterialStateProperty.all(const Size(100, 50))),
         onPressed: () async {
           await onPressed();
@@ -305,14 +307,30 @@ class _TimePickerTxtState extends State<TimePickerTxt> {
         final result = await TimePicker.show<DateTime?>(
           context: context,
           sheet: TimePickerSheet(
-            initialDateTime:
-                DateTime.parse(alarm.day).add(const Duration(minutes: 5)),
-            minuteInterval: 5,
-            sheetTitle: 'What time',
-            hourTitle: 'Hour',
-            minuteTitle: 'Minute',
-            saveButtonText: 'Save',
-          ),
+              initialDateTime:
+                  DateTime.parse(alarm.day).add(const Duration(minutes: 5)),
+              minuteInterval: 5,
+              sheetTitle: 'What time',
+              hourTitle: 'Hour',
+              minuteTitle: 'Minute',
+              saveButtonText: 'Save',
+              saveButtonColor: Config.primaryColor,
+              sheetCloseIconColor: Config.primaryColor,
+              sheetTitleStyle:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              hourTitleStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Config.primaryColor,
+                  fontSize: 16),
+              minuteTitleStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Config.primaryColor,
+                  fontSize: 16),
+              wheelNumberItemStyle: const TextStyle(fontSize: 14),
+              wheelNumberSelectedStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Config.primaryColor,
+                  fontSize: 16)),
         );
         widget.onChanged(result ?? alarm.hourMinute);
       },
@@ -322,7 +340,7 @@ class _TimePickerTxtState extends State<TimePickerTxt> {
         text: TextSpan(
           text: 'Select Time :\n\n',
           style: const TextStyle(
-              color: Config.orange, fontSize: Config.textFontSize - 1),
+              color: Config.primaryColor, fontSize: Config.textFontSize - 1),
           children: <TextSpan>[
             TextSpan(
                 text: alarm.hourMinute,
