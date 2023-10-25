@@ -91,7 +91,6 @@ class _AlarmItemListViewState extends State<AlarmItemListView> {
               );
             }
           }
-
           // Displaying LoadingSpinner to indicate waiting state
           return const Center(
             child: CircularProgressIndicator(),

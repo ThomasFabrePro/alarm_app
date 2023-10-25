@@ -46,17 +46,18 @@ class _AlarmCardState extends State<AlarmCard> {
             constraints: const BoxConstraints(maxWidth: 800),
             height: 120,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.white.withOpacity(0.35),
-                    Colors.white.withOpacity(0.2),
+                    Color.fromRGBO(255, 255, 255, 0.35),
+                    Color.fromRGBO(255, 255, 255, 0.2),
                   ]),
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
+                // color: Config.primaryColor,
                 color: Colors.white30,
-                width: 2,
+                width: 1,
               ),
             ),
             child: Padding(
